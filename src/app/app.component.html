@@ -1,0 +1,115 @@
+<div class="warper" >
+  <nav class="navbar navbar-static-top navbar-expand-md navbar-dark bg-dark"  >
+    <a href="#" class="navbar-brand"></a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <form class="form-inline mx-auto" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate >
+      <input type="text" name="first" ngModel required #first="ngModel" class="form-control mr-sm-2" style="width:300px !important;"  placeholder="Search">
+      <button class="btn btn-outline-light">Search</button>
+        </form>
+    </div>
+</nav>
+</div>
+<section style="margin-top: 10px;">
+<div class="container-fluid">
+<div class="row">
+<div class="col-sm-4 leftBlock">
+<ng-container *ngIf="show">
+<div *ngFor="let movie of movies$" >
+<div class="card cardui" 
+ (click)="serialDetailFunction($event,movie)">
+  <div class="clearfix">
+  <img src="//image.tmdb.org/t/p/w220_and_h330_face//{{movie.poster_path }}" width="160" height="140" class="float-left" style="  padding-top:10px; padding-right:10px; padding-bottom:5px; padding-left:10px;"  alt="Movie" >       
+  <div class="card-body">
+   <h6 class="card-title">{{ movie.original_title }}</h6>
+  <p>Rated : {{movie.vote_average }}/10</p>
+  <p>Released on : {{(movie.release_date | date: "d")}}{{(movie.release_date | date: "d") | datepattren}} {{(movie.release_date | date: "MMM")}} {{(movie.release_date | date: "yy")}}</p>
+  <p>{{movie.overview | slice:0:70 }}...</p>
+  
+  </div>
+
+  </div>
+
+  </div>
+</div>
+</ng-container>
+<ng-container *ngIf="next">
+<div *ngFor="let search of searchmovies$" >
+  <div class="card cardui"  (click)="searchDetailsFunction($event,search)" >
+    <div class="clearfix">
+    <img src="//image.tmdb.org/t/p/w220_and_h330_face//{{search.poster_path }}" width="160" height="150" class="float-left" style="  padding-top:10px; padding-right:10px; padding-bottom:5px; padding-left:10px;"  alt="Movie" >       
+    <div class="card-body">
+    <h6 class="card-title">{{ search.original_title }}</h6>
+    <p>Rated : {{search.vote_average }}/10</p>
+    <p>Released on : {{(search.release_date | date: "d")}}{{(search.release_date | date: "d") | datepattren}} {{(search.release_date | date: "MMM")}} {{(search.release_date | date: "yy")}}</p>
+    <p>{{search.overview | slice:0:40 }}...</p>
+    </div>
+    </div>
+   
+    </div>
+  </div>
+</ng-container>
+</div>
+<div class="col-sm-8">
+<ng-container *ngIf="show && !regulardetails" >
+ <div style="position: fixed;" > 
+  <div class="clearfix"  >
+    <img src="//image.tmdb.org/t/p/w220_and_h330_face//{{poster }}" class="pade_details_image" alt="Movie" >       
+    <div class="card-body" >
+    <h6 class="page_details_title">{{ title }}</h6>
+    <p class="page_details_releasedate">Release Date : {{(date | date: "d")}}{{(date | date: "d") | datepattren}} {{(date | date: "MMM")}} {{(date | date: "yy")}}</p>
+    <p class="page_details_releasedate">Rating : {{rating}}/10</p> 
+    <p class="page_details_review">Review : {{totalReview}}</p> 
+  </div>
+  </div>
+<p class="total_description">{{totaldescription}}</p>
+</div>
+</ng-container>
+<ng-container *ngIf="show && regulardetails" >
+  <div style="position: fixed;" > 
+   <div class="clearfix"  >
+     <img src="//image.tmdb.org/t/p/w220_and_h330_face//{{poster }}" class="pade_details_image" alt="Movie" >       
+     <div class="card-body" >
+     <h6 class="page_details_title">{{ title }}</h6>
+     <p class="page_details_releasedate">Release Date : {{(date | date: "d")}}{{(date | date: "d") | datepattren}} {{(date | date: "MMM")}} {{(date | date: "yy")}}</p>
+     <p class="page_details_releasedate">Rating : {{rating}}/10</p> 
+     <p class="page_details_review">Review : {{totalReview}}</p> 
+   </div>
+   </div>
+ <p class="total_description">{{totaldescription}}</p>
+ </div>
+ </ng-container>
+<ng-container *ngIf="next && !searchdetails" >
+  <div style="position: fixed;" > 
+   <div class="clearfix"  >
+     <img src="//image.tmdb.org/t/p/w220_and_h330_face//{{poster }}" class="pade_details_image" alt="Movie" >       
+     <div class="card-body " >
+     <h6 class="page_details_title">{{ title }}</h6>
+     <p class="page_details_releasedate">Release Date : {{(date | date: "d")}}{{(date | date: "d") | datepattren}} {{(date | date: "MMM")}} {{(date | date: "yy")}}</p>
+     <p class="page_details_releasedate">Rating : {{rating}}/10</p> 
+     <p class="page_details_review">Review : {{totalReview}}</p> 
+   </div>
+   </div>
+ <p class="total_description">{{totaldescription}}</p>
+ </div>
+ </ng-container>
+ <ng-container *ngIf="next && searchdetails " >
+  <div style="position: fixed;" > 
+   <div class="clearfix"  >
+     <img src="//image.tmdb.org/t/p/w220_and_h330_face//{{poster }}" class="pade_details_image" alt="Movie" >       
+     <div class="card-body " >
+     <h6 class="page_details_title">{{ title }}</h6>
+     <p class="page_details_releasedate">Release Date : {{(date | date: "d")}}{{(date | date: "d") | datepattren}} {{(date | date: "MMM")}} {{(date | date: "yy")}}</p>
+     <p class="page_details_releasedate">Rating : {{rating}}/10</p> 
+     <p class="page_details_review">Review : {{totalReview}}</p> 
+   </div>
+   </div>
+ <p class="total_description">{{totaldescription}}</p>
+ </div>
+ </ng-container>
+</div>
+</div>
+</div>  
+</section>
